@@ -3,18 +3,23 @@
   "version": "1.0.0",
   "description": "a basic app to deploy",
   "keywords": [
+    "backend",
+    "javascript",
     "node",
     "chai"
   ],
   "license": "ISC",
   "author": "rasika",
-  "type": "commonjs",
-  "main": "server.js",
+  "type": "module",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "dev": "nodemon src/index.js"
   },
   "dependencies": {
     "dotenv": "^17.3.1",
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }
