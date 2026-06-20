@@ -15,7 +15,6 @@ connectDB();
 
 
 
-
 /* First approach to connect to MongoDB and start the server.
 
 import express from "express";
