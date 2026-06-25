@@ -145,11 +145,10 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
-  const { refreshToken } = req.cookies;
-
-  await User.updateOne(
-    { _id: req.user._id },
-    { $unset: { refreshToken: 1 } }
+  await User.findByIdAndUpdate(
+    req.user._id, 
+    { $set: { refreshToken: null } }, 
+    { new: true }
   );
 
   const cookieOptions = {
