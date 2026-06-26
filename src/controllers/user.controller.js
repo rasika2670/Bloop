@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { deletePrevAvatar } from "../utils/deletePrevAvatar.js";
 import jwt from "jsonwebtoken";
 
 const generateAccessAndRefreshTokens = async (userId) => {
@@ -276,6 +277,8 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     { $set: { avatar: avatar.url } },
     { new: true }
   ).select("-password");
+
+  await deletePrevAvatar(req.user.avatar);
 
   return res
     .status(200)
