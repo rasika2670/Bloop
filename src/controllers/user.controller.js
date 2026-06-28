@@ -5,6 +5,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { deletePrevAvatar } from "../utils/deletePrevAvatar.js";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -180,7 +181,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
       process.env.REFRESH_TOKEN_SECRET
     );
 
-    await User.findById(decodedToken?._id);
+    const user = await User.findById(decodedToken?._id);
 
     if (!user) {
       throw new ApiError(401, "Invalid refresh token");
@@ -212,7 +213,9 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
           "Access token refreshed successfully"
         )
       );
+    
   } catch (error) {
+    console.log("Refresh token verification failed:", error);
     throw new ApiError(401, error.message || "Invalid refresh token");
   }
 });
