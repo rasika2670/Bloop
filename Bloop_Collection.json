@@ -1,267 +1,1020 @@
 {
   "info": {
-    "name": "Chai aur Backend API - Users",
-    "description": "Postman collection to test the user routes",
+    "name": "Chai aur Backend API",
+    "description": "Postman collection to test all backend routes including Users, Videos, Comments, Likes, Playlists, Tweets, Subscription, Dashboard, and Healthcheck.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "Register User",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "formdata",
-          "formdata": [
-            { "key": "fullName", "value": "John Doe", "type": "text" },
-            { "key": "username", "value": "johndoe", "type": "text" },
-            { "key": "email", "value": "john@example.com", "type": "text" },
-            { "key": "password", "value": "password123", "type": "text" },
-            { "key": "avatar", "type": "file" },
-            { "key": "coverImage", "type": "file" }
-          ]
-        },
-        "url": {
-          "raw": "{{base_url}}/users/register",
-          "host": ["{{base_url}}"],
-          "path": ["users", "register"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Login User",
-      "event": [
+      "name": "Users",
+      "item": [
         {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "var jsonData = pm.response.json();",
-              "if (jsonData.data && jsonData.data.accessToken) {",
-              "    pm.collectionVariables.set(\"token\", jsonData.data.accessToken);",
-              "}"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "fullName", "value": "John Doe", "type": "text" },
+                { "key": "username", "value": "johndoe", "type": "text" },
+                { "key": "email", "value": "john@example.com", "type": "text" },
+                { "key": "password", "value": "password123", "type": "text" },
+                { "key": "avatar", "type": "file" },
+                { "key": "coverImage", "type": "file" }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/users/register",
+              "host": ["{{base_url}}"],
+              "path": ["users", "register"]
             }
-          }
+          },
+          "response": []
         },
-        "url": {
-          "raw": "{{base_url}}/users/login",
-          "host": ["{{base_url}}"],
-          "path": ["users", "login"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Logout User",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            { "key": "token", "value": "{{token}}", "type": "string" }
-          ]
-        },
-        "method": "POST",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/users/logout",
-          "host": ["{{base_url}}"],
-          "path": ["users", "logout"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Refresh Token",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/users/refresh-token",
-          "host": ["{{base_url}}"],
-          "path": ["users", "refresh-token"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Change Password",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            { "key": "token", "value": "{{token}}", "type": "string" }
-          ]
-        },
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"currentPassword\": \"password123\",\n    \"newPassword\": \"newpassword123\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.data && jsonData.data.accessToken) {",
+                  "    pm.collectionVariables.set(\"token\", jsonData.data.accessToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
             }
-          }
-        },
-        "url": {
-          "raw": "{{base_url}}/users/change-password",
-          "host": ["{{base_url}}"],
-          "path": ["users", "change-password"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Current User",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            { "key": "token", "value": "{{token}}", "type": "string" }
-          ]
-        },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/users/current-user",
-          "host": ["{{base_url}}"],
-          "path": ["users", "current-user"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Update Account Details",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            { "key": "token", "value": "{{token}}", "type": "string" }
-          ]
-        },
-        "method": "PATCH",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"fullName\": \"John Doe Updated\",\n    \"email\": \"johnupdated@example.com\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/login",
+              "host": ["{{base_url}}"],
+              "path": ["users", "login"]
             }
-          }
+          },
+          "response": []
         },
-        "url": {
-          "raw": "{{base_url}}/users/update-account",
-          "host": ["{{base_url}}"],
-          "path": ["users", "update-account"]
+        {
+          "name": "Logout User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/logout",
+              "host": ["{{base_url}}"],
+              "path": ["users", "logout"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/refresh-token",
+              "host": ["{{base_url}}"],
+              "path": ["users", "refresh-token"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"currentPassword\": \"password123\",\n    \"newPassword\": \"newpassword123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/change-password",
+              "host": ["{{base_url}}"],
+              "path": ["users", "change-password"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Current User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/current-user",
+              "host": ["{{base_url}}"],
+              "path": ["users", "current-user"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Account Details",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"fullName\": \"John Doe Updated\",\n    \"email\": \"johnupdated@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/update-account",
+              "host": ["{{base_url}}"],
+              "path": ["users", "update-account"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Avatar",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "avatar", "type": "file" }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/users/avatar",
+              "host": ["{{base_url}}"],
+              "path": ["users", "avatar"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Cover Image",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "coverImage", "type": "file" }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/users/cover-image",
+              "host": ["{{base_url}}"],
+              "path": ["users", "cover-image"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Channel Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/c/johndoe",
+              "host": ["{{base_url}}"],
+              "path": ["users", "c", "johndoe"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Watch History",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/history",
+              "host": ["{{base_url}}"],
+              "path": ["users", "history"]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "Update Avatar",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            { "key": "token", "value": "{{token}}", "type": "string" }
-          ]
+      "name": "Videos",
+      "item": [
+        {
+          "name": "Get All Videos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/videos",
+              "host": ["{{base_url}}"],
+              "path": ["videos"]
+            }
+          },
+          "response": []
         },
-        "method": "PATCH",
-        "header": [],
-        "body": {
-          "mode": "formdata",
-          "formdata": [
-            { "key": "avatar", "type": "file" }
-          ]
+        {
+          "name": "Publish Video",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "title", "value": "My Test Video", "type": "text" },
+                { "key": "description", "value": "This is a description", "type": "text" },
+                { "key": "videoFile", "type": "file" },
+                { "key": "thumbnail", "type": "file" }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/videos",
+              "host": ["{{base_url}}"],
+              "path": ["videos"]
+            }
+          },
+          "response": []
         },
-        "url": {
-          "raw": "{{base_url}}/users/avatar",
-          "host": ["{{base_url}}"],
-          "path": ["users", "avatar"]
+        {
+          "name": "Get Video By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/videos/:videoId",
+              "host": ["{{base_url}}"],
+              "path": ["videos", ":videoId"],
+              "variable": [
+                { "key": "videoId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Video",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "title", "value": "Updated Title", "type": "text" },
+                { "key": "description", "value": "Updated Description", "type": "text" },
+                { "key": "thumbnail", "type": "file" }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/videos/:videoId",
+              "host": ["{{base_url}}"],
+              "path": ["videos", ":videoId"],
+              "variable": [
+                { "key": "videoId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Video",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/videos/:videoId",
+              "host": ["{{base_url}}"],
+              "path": ["videos", ":videoId"],
+              "variable": [
+                { "key": "videoId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Toggle Publish Status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/videos/:videoId",
+              "host": ["{{base_url}}"],
+              "path": ["videos", ":videoId"],
+              "variable": [
+                { "key": "videoId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "Update Cover Image",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            { "key": "token", "value": "{{token}}", "type": "string" }
-          ]
+      "name": "Comments",
+      "item": [
+        {
+          "name": "Get Video Comments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/comments/:videoId?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["comments", ":videoId"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ],
+              "variable": [
+                { "key": "videoId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
         },
-        "method": "PATCH",
-        "header": [],
-        "body": {
-          "mode": "formdata",
-          "formdata": [
-            { "key": "coverImage", "type": "file" }
-          ]
+        {
+          "name": "Add Comment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"content\": \"This is a nice video!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/comments/:videoId",
+              "host": ["{{base_url}}"],
+              "path": ["comments", ":videoId"],
+              "variable": [
+                { "key": "videoId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
         },
-        "url": {
-          "raw": "{{base_url}}/users/cover-image",
-          "host": ["{{base_url}}"],
-          "path": ["users", "cover-image"]
+        {
+          "name": "Update Comment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"content\": \"Updated comment content\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/comments/:commentId",
+              "host": ["{{base_url}}"],
+              "path": ["comments", ":commentId"],
+              "variable": [
+                { "key": "commentId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Comment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/comments/:commentId",
+              "host": ["{{base_url}}"],
+              "path": ["comments", ":commentId"],
+              "variable": [
+                { "key": "commentId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "Get User Channel Profile",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            { "key": "token", "value": "{{token}}", "type": "string" }
-          ]
+      "name": "Likes",
+      "item": [
+        {
+          "name": "Toggle Video Like",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/likes/v/:videoId",
+              "host": ["{{base_url}}"],
+              "path": ["likes", "v", ":videoId"],
+              "variable": [
+                { "key": "videoId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
         },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/users/c/johndoe",
-          "host": ["{{base_url}}"],
-          "path": ["users", "c", "johndoe"]
+        {
+          "name": "Toggle Comment Like",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/likes/c/:commentId",
+              "host": ["{{base_url}}"],
+              "path": ["likes", "c", ":commentId"],
+              "variable": [
+                { "key": "commentId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Toggle Tweet Like",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/likes/t/:tweetId",
+              "host": ["{{base_url}}"],
+              "path": ["likes", "t", ":tweetId"],
+              "variable": [
+                { "key": "tweetId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Liked Videos",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/likes",
+              "host": ["{{base_url}}"],
+              "path": ["likes"]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "Get Watch History",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            { "key": "token", "value": "{{token}}", "type": "string" }
-          ]
+      "name": "Playlists",
+      "item": [
+        {
+          "name": "Create Playlist",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"My Favourites\",\n    \"description\": \"A playlist of my favorite videos\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/playlist",
+              "host": ["{{base_url}}"],
+              "path": ["playlist"]
+            }
+          },
+          "response": []
         },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/users/history",
-          "host": ["{{base_url}}"],
-          "path": ["users", "history"]
+        {
+          "name": "Get Playlist By ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/playlist/:playlistId",
+              "host": ["{{base_url}}"],
+              "path": ["playlist", ":playlistId"],
+              "variable": [
+                { "key": "playlistId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Playlist",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Updated Playlist Name\",\n    \"description\": \"Updated playlist description\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/playlist/:playlistId",
+              "host": ["{{base_url}}"],
+              "path": ["playlist", ":playlistId"],
+              "variable": [
+                { "key": "playlistId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Playlist",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/playlist/:playlistId",
+              "host": ["{{base_url}}"],
+              "path": ["playlist", ":playlistId"],
+              "variable": [
+                { "key": "playlistId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Video to Playlist",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/playlist/add/:videoId/:playlistId",
+              "host": ["{{base_url}}"],
+              "path": ["playlist", "add", ":videoId", ":playlistId"],
+              "variable": [
+                { "key": "videoId", "value": "60d5ec4934b123456789abcd" },
+                { "key": "playlistId", "value": "60d5ec4934b123456789efgh" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Video from Playlist",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/playlist/remove/:videoId/:playlistId",
+              "host": ["{{base_url}}"],
+              "path": ["playlist", "remove", ":videoId", ":playlistId"],
+              "variable": [
+                { "key": "videoId", "value": "60d5ec4934b123456789abcd" },
+                { "key": "playlistId", "value": "60d5ec4934b123456789efgh" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Playlists",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/playlist/user/:userId",
+              "host": ["{{base_url}}"],
+              "path": ["playlist", "user", ":userId"],
+              "variable": [
+                { "key": "userId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
+    },
+    {
+      "name": "Tweets",
+      "item": [
+        {
+          "name": "Create Tweet",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"content\": \"Hello world! This is my first tweet.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/tweet",
+              "host": ["{{base_url}}"],
+              "path": ["tweet"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Tweets",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tweet",
+              "host": ["{{base_url}}"],
+              "path": ["tweet"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Tweet",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"content\": \"This is my updated tweet!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/tweet/:id",
+              "host": ["{{base_url}}"],
+              "path": ["tweet", ":id"],
+              "variable": [
+                { "key": "id", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Tweet",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tweet/:id",
+              "host": ["{{base_url}}"],
+              "path": ["tweet", ":id"],
+              "variable": [
+                { "key": "id", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Subscription",
+      "item": [
+        {
+          "name": "Toggle Subscription",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/subscription/c/:channelId",
+              "host": ["{{base_url}}"],
+              "path": ["subscription", "c", ":channelId"],
+              "variable": [
+                { "key": "channelId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Channel Subscribers",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/subscription/c/:channelId",
+              "host": ["{{base_url}}"],
+              "path": ["subscription", "c", ":channelId"],
+              "variable": [
+                { "key": "channelId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Subscribed Channels",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/subscription/u/:subscriberId",
+              "host": ["{{base_url}}"],
+              "path": ["subscription", "u", ":subscriberId"],
+              "variable": [
+                { "key": "subscriberId", "value": "60d5ec4934b123456789abcd" }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Get Channel Stats",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dashboard/stats",
+              "host": ["{{base_url}}"],
+              "path": ["dashboard", "stats"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Channel Videos",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                { "key": "token", "value": "{{token}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dashboard/videos",
+              "host": ["{{base_url}}"],
+              "path": ["dashboard", "videos"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Healthcheck",
+      "item": [
+        {
+          "name": "Healthcheck Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/healthcheck",
+              "host": ["{{base_url}}"],
+              "path": ["healthcheck"]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "variable": [

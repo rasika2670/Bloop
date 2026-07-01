@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
-const subscriptionSchema = new Schema(
+const subscriptionSchema = new mongoose.Schema(
   {
     subscriber: {
-      type: Schema.Types.ObjectId, //one who is subscribing to the channel
+      type: mongoose.Schema.Types.ObjectId, //one who is subscribing to the channel
       ref: "User",  
     },
     channel: {
-      type: Schema.Types.ObjectId, //the channel to which the user is subscribing
+      type: mongoose.Schema.Types.ObjectId, //the channel to which the user is subscribing
       ref: "User",
     }
   },
